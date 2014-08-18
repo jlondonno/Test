@@ -28,11 +28,18 @@
   			<table class="table table-striped table-hover">
   				<tr class="active">
   					<td width="200px">
-  						<div class="list-group">
-						  <a href="#" class="list-group-item active">
-							Actors List
-						  </a>						  
-						  <ul id="actorList"></ul>
+  						
+						<div class="panel panel-primary">
+						  <div class="panel-heading">
+							<h3 class="panel-title">Actor List</h3>
+						  </div>
+						  <div class="panel-body">
+						  	
+						   	<div class="list-group">
+						   		<ul id="actorList"></ul>						   		
+							</div>
+						  								
+						  </div>
 						</div>
   					</td>
   					<td>
