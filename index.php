@@ -29,11 +29,11 @@
   				<tr class="active">
   					<td width="200px">
   						
-						<div class="panel panel-primary">
+						<div class="panel panel-primary scrollablePanel">
 						  <div class="panel-heading">
 							<h3 class="panel-title">Actor List</h3>
 						  </div>
-						  <div class="panel-body">
+						  <div class="panel-body ">
 						  	
 						   	<div class="list-group">
 						   		<ul id="actorList"></ul>						   		
@@ -86,26 +86,21 @@
 						</div>
 						  						
   					</td>
-  					<td>
+  					<td width="400px">
   						 						
-  						<div class="panel panel-primary">
+  						<div class="panel panel-primary  scrollablePanel">
 						  <div class="panel-heading">
 							<h3 class="panel-title">Actor Movies</h3>
 						  </div>
 						  <div class="panel-body">
 						  
-						  	<table>
-						  		<tr>
-						  			<td>
-						  				<div>
-						  					<img src='http://image.tmdb.org/t/p/w154/' id="imgPelicula"/>
-						  				</div>
-						  				<div>
-						  					<p>Titulo Pelicula</p>
-						  				</div>
-						  			</td>
-						  		</tr>
-						  	</table>		
+						  	<div id="tableMovies">						  
+									<table id="moviesFromActor">
+									</table>
+						  	</div>
+						  	
+						  	<p id="messageMovies" style="display: none"></p>
+						  		
 						   </div>
 						</div>  						
   						

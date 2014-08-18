@@ -19,13 +19,12 @@ $(document).ready(function() {
 });
 
 
-// Register listeners
 $('#btnSearch').click(function() {
 	search($('#searchKey').val());
 	return false;
 });
 
-// Trigger search when pressing 'Return' on search key input field
+
 $('#searchKey').keypress(function(e){
 	if(e.which == 13) {
 		search($('#searchKey').val());
@@ -49,7 +48,6 @@ function search(searchKey) {
 	}
 		
 }
-
 
 function findByName(searchKey) {
 	console.log('findByName: ' + searchKey);
@@ -129,8 +127,7 @@ function renderMoviesFromActor(data) {
 	
 	var list = data == null ? [] : (data.cast instanceof Array ? data.cast : [data.cast]);
 	
-	$('#moviesList table').remove();
-	$('#moviesList li').remove();
+	$('#tableMovies').hide();
 	
 	if(list.length > 0){
 		
@@ -141,44 +138,38 @@ function renderMoviesFromActor(data) {
   			return aDate - bDate;
 		});
 		
-		//$('#moviesList').append('<table class="table table-striped table-hover" border="1">');
+		$('#messageMovies').hide();
 		
+		$('#tableMovies').show();
+		
+		$( "#tableMovies tr" ).each( function(){
+  			this.parentNode.removeChild( this ); 
+		});
 		
 		$.each(list, function(index, cast) {
 		
+			var table = $('#moviesFromActor');
+				
+			table.append('<tr>' +
+							'<td>' + 
+								'<img src="http://image.tmdb.org/t/p/w154/'+cast.poster_path+'" onerror="imgError(this);"/>' +
+							'</td>' +
+							'<td>' +
+								'<div class="list-group">' +
+									'<h6>Original Title:</h6>' +
+									'<h7 class="text-primary">'+cast.original_title+'</h7>' +
+									'<h6>Release Date: </h6>' +
+									'<h7 class="text-primary">'+cast.release_date +'</h7>' +
+								'</div>' +
+							'</td>' +						
+						'</tr>');		
 		
-		
-		
-		/*$('#moviesList').append(
-				'<table class="table table-striped table-hover">' +
-				'<tr>' +
-					'<td rowspan=2 width="50px" align="center">' + 
-						'<img src="http://image.tmdb.org/t/p/w154/'+cast.poster_path+'" height="150" onerror="imgError(this);"/>' +
-					'</td>' +
-					'<td class="info" width="100px">' +
-						'Original Title: ' +
-					'</td>' +
-					'<td width="100px">' +
-						cast.original_title +
-					'</td>' +
-				'</tr>' +
-				'<tr>' +
-					'<td class="info" width="100px">' +
-						'Release Date: ' +
-					'</td>' +
-					'<td width="100px">' +
-						cast.release_date +
-					'</td>' +
-				'</tr>'	+
-				'</table>'				
-			);
-			*/
 		});
 		
-		
-		//$('#moviesList').append('</table>');
 	} else{
-		$('#moviesList').append('<li><h3>Actor without Movies</h3></li>');
+		$('#messageMovies').text('');
+		$('#messageMovies').show();
+		$('#messageMovies').append('<p class="text-danger">Actor without Movies</p>');
 	}
 	
 	$('#progressBar').hide();
