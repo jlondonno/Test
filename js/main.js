@@ -8,6 +8,7 @@ var urlSearchMoviesActor = "/person/{id}/movie_credits?api_key="+keyAPI;
 
 var currentActor;
 
+//Fuction to search the actors by name
 $(document).ready(function() {
 
 	// Register listeners
@@ -24,7 +25,7 @@ $('#btnSearch').click(function() {
 	return false;
 });
 
-
+//Event when press enter over the input type text
 $('#searchKey').keypress(function(e){
 	if(e.which == 13) {
 		search($('#searchKey').val());
@@ -33,6 +34,8 @@ $('#searchKey').keypress(function(e){
     }
 });
 
+//Fuction to catch click event over some item from 
+//the actor list
 $('#actorList a').live('click', function() {
 	$('#progressBar').show();
 	findById($(this).data('identity'));
@@ -49,6 +52,8 @@ function search(searchKey) {
 		
 }
 
+//Fuction to call the rest service to get
+//the actor list by name
 function findByName(searchKey) {
 	console.log('findByName: ' + searchKey);
 	$.ajax({
@@ -59,6 +64,8 @@ function findByName(searchKey) {
 	});
 }
 
+//fuction to get the data's actor with his
+//profile picture throught the id of actor
 function findById(id) {
 	console.log('findById: ' + id);
 	$.ajax({
@@ -73,6 +80,7 @@ function findById(id) {
 	});
 }
 
+//Fuction to get the movies´s actor through an id
 function findMoviesByIdActor(id) {
 	console.log('findMoviesByIdActor: ' + id);
 	$.ajax({
@@ -83,6 +91,8 @@ function findMoviesByIdActor(id) {
 	});
 }
 
+//Fuction to load the actors list that returns
+//the rest service
 function renderList(data) {
 	
 	var list = data == null ? [] : (data.results instanceof Array ? data.results : [data.results]);
@@ -105,6 +115,7 @@ function renderList(data) {
 	}
 }
 
+//Fuction to clear the element´s form
 function clearDetails() {
 	$('#name').text('');
 	$('#birthday').text('');
@@ -113,6 +124,7 @@ function clearDetails() {
 	$('#biography').text('');	
 }
 
+//Fuction to load the data´s actor in the form
 function renderDetails(result) {
 	$('#pic').remove();
 	$('#name').text(result.name);
@@ -123,6 +135,7 @@ function renderDetails(result) {
 	$('<img id="pic" src="http://image.tmdb.org/t/p/w154/' + result.profile_path+'" onerror="picError(this);">').appendTo("#profilePicture");
 }
 
+//Function to load the movies´s actor in a table
 function renderMoviesFromActor(data) {
 	
 	var list = data == null ? [] : (data.cast instanceof Array ? data.cast : [data.cast]);
@@ -131,17 +144,19 @@ function renderMoviesFromActor(data) {
 	
 	if(list.length > 0){
 		
-		//Sort by release date
+		//Sort by release date the movies
 		list.sort(function(a, b){
     		var aDate = new Date(a.release_date);
   			var bDate = new Date(b.release_date); 
   			return aDate - bDate;
 		});
 		
+		//Hide the message that indicates actor with out movies
 		$('#messageMovies').hide();
 		
 		$('#tableMovies').show();
 		
+		//Remove the tr from the table
 		$( "#tableMovies tr" ).each( function(){
   			this.parentNode.removeChild( this ); 
 		});
@@ -149,7 +164,10 @@ function renderMoviesFromActor(data) {
 		$.each(list, function(index, cast) {
 		
 			var table = $('#moviesFromActor');
-				
+			
+			var releaseDate = cast.release_date == null || cast.release_date == '' ? 'No Data' : cast.release_date;
+			
+			//Append cells to table for each movie				
 			table.append('<tr>' +
 							'<td>' + 
 								'<img src="http://image.tmdb.org/t/p/w154/'+cast.poster_path+'" onerror="imgError(this);"/>' +
@@ -157,9 +175,9 @@ function renderMoviesFromActor(data) {
 							'<td>' +
 								'<div class="list-group">' +
 									'<h6>Original Title:</h6>' +
-									'<h7 class="text-primary">'+cast.original_title+'</h7>' +
+									'<h7 class="text-primary">'+ cast.original_title +'</h7>' +
 									'<h6>Release Date: </h6>' +
-									'<h7 class="text-primary">'+cast.release_date +'</h7>' +
+									'<h7 class="text-primary">'+ releaseDate +'</h7>' +
 								'</div>' +
 							'</td>' +						
 						'</tr>');		
@@ -175,12 +193,16 @@ function renderMoviesFromActor(data) {
 	$('#progressBar').hide();
 }
 
+//Fuction to manage the error when a movies doesn´t have
+//a poster
 function imgError(image) {
     image.onerror = "";
     image.src = "pics/posterNotAvailable.jpg";
     return true;
 }
 
+//Fuction to manage the error when a actor doesn´t have
+//a profile picture
 function picError(image) {
     image.onerror = "";
     image.src = "pics/NoAvailable2.jpg";
